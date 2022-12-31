@@ -1,38 +1,42 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Param,
+  Delete,
+  Put,
+} from '@nestjs/common';
 import { CreateUserDto } from '../dto/create-user.dto';
-import User from 'src/facade/entities/user.model';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
+import { UserService } from '../service/user.service';
+import { UpdateUserDto } from '../dto/update-user.dto';
 
 @Controller('user')
 export class UserController {
-  constructor(
-    @InjectRepository(User)
-    private usersRepository: Repository<User>,
-  ) {}
+  constructor(private userService: UserService) {}
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
-    return this.usersRepository.save(createUserDto);
+    return this.userService.create(createUserDto);
   }
 
   @Get()
   findAll() {
-    return this.usersRepository.createQueryBuilder('User').getMany();
+    return this.userService.findAll();
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.usersRepository.findOne(+id);
-  // }
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.userService.findOneById(+id);
+  }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-  //   return this.usersRepository.update(+id, updateUserDto);
-  // }
+  @Put(':id')
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.userService.update(+id, updateUserDto);
+  }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.usersRepository.remove(+id);
-  // }
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.userService.delete(+id);
+  }
 }

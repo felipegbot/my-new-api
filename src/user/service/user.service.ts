@@ -1,29 +1,33 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from '../dto/create-user.dto';
+import { UserHandler } from '../handler/user.handler';
+import { UserRepositoryHandler } from '../handler/user-repositoy.handler';
 import { UpdateUserDto } from '../dto/update-user.dto';
-// import AppDataSource from 'src/facade/database';
-
+import { CreateUserDto } from '../dto/create-user.dto';
 @Injectable()
 export class UserService {
-  create(createUserDto: CreateUserDto) {
-    // AppDataSource.getRepository('User').save(createUserDto);
+  constructor(
+    private userHandler: UserHandler,
+    private userRepositoryHandler: UserRepositoryHandler,
+  ) {}
 
-    return 'This action adds a new user';
+  async create(userToCreate: CreateUserDto) {
+    await this.userHandler.validateEmail(userToCreate.email);
+    return this.userHandler.create(userToCreate);
   }
 
-  findAll() {
-    return `This action returns all user`;
+  async findAll() {
+    return this.userHandler.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOneById(id: number) {
+    return this.userHandler.findOneById(id);
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: number, userToUpdate: UpdateUserDto) {
+    return this.userHandler.update(id, userToUpdate);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async delete(id: number) {
+    return this.userRepositoryHandler.delete(id);
   }
 }
