@@ -23,6 +23,10 @@ export class UserService {
     return this.userHandler.findOneById(id);
   }
 
+  async findOneByEmail(email: string) {
+    return this.userHandler.findOneByEmail(email);
+  }
+
   async update(id: number, userToUpdate: UpdateUserDto) {
     return this.userHandler.update(id, userToUpdate);
   }

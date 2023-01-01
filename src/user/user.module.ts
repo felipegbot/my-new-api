@@ -11,11 +11,20 @@ import User from 'src/facade/entities/user.model';
 import { UserRepositoryHandler } from './handler/user-repositoy.handler';
 import { UserHandler } from './handler/user.handler';
 import { ValidateIdMiddleware } from './middleware/user.middleware';
+import { AuthService } from 'src/auth/auth.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User])],
   controllers: [UserController],
-  providers: [UserService, UserRepositoryHandler, UserHandler],
+  providers: [
+    UserService,
+    UserRepositoryHandler,
+    UserHandler,
+    AuthService,
+    JwtService,
+  ],
+  exports: [UserService, UserRepositoryHandler, UserHandler],
 })
 export class UserModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

@@ -6,14 +6,26 @@ import {
   Param,
   Delete,
   Put,
+  UseGuards,
+  Request,
 } from '@nestjs/common';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UserService } from '../service/user.service';
 import { UpdateUserDto } from '../dto/update-user.dto';
+import { LocalAuthGuard } from 'src/auth/local-auth.guard';
+import { AuthService } from 'src/auth/auth.service';
 
 @Controller('user')
 export class UserController {
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private authService: AuthService,
+  ) {}
+
+  @UseGuards(LocalAuthGuard)
+  authenticate(@Request() req) {
+    return this.authService.login(req.user);
+  }
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {

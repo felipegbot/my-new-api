@@ -26,7 +26,12 @@ export class UserRepositoryHandler {
   }
 
   async findOneByEmail(email: string) {
-    const user = await this.userRepository.findOne({ where: { email: email } });
+    const user = await this.userRepository
+      .createQueryBuilder('user')
+      .where('user.email = :email', { email: email })
+      .addSelect('user.password_hash')
+      .getOne();
+
     return user;
   }
 

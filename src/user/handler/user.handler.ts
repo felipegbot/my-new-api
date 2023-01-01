@@ -26,6 +26,10 @@ export class UserHandler {
     return this.userRepositoryHandler.findOneById(id);
   }
 
+  async findOneByEmail(email: string) {
+    return this.userRepositoryHandler.findOneByEmail(email);
+  }
+
   async update(id: number, userToUpdate: UpdateUserDto) {
     const user = await this.userRepositoryHandler.findOneById(id);
     userToUpdate = { ...user, ...userToUpdate };
