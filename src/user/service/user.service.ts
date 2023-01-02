@@ -1,14 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { UserHandler } from '../handler/user.handler';
-import { UserRepositoryHandler } from '../handler/user-repositoy.handler';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { CreateUserDto } from '../dto/create-user.dto';
 @Injectable()
 export class UserService {
-  constructor(
-    private userHandler: UserHandler,
-    private userRepositoryHandler: UserRepositoryHandler,
-  ) {}
+  constructor(private userHandler: UserHandler) {}
 
   async create(userToCreate: CreateUserDto) {
     await this.userHandler.validateEmail(userToCreate.email);
@@ -32,6 +28,6 @@ export class UserService {
   }
 
   async delete(id: number) {
-    return this.userRepositoryHandler.delete(id);
+    return this.userHandler.delete(id);
   }
 }

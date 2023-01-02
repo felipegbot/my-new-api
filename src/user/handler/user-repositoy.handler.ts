@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import User from 'src/facade/entities/user.model';
 import { Repository } from 'typeorm';
 import { UpdateUserDto } from '../dto/update-user.dto';
+import User from '../user.model';
 @Injectable()
 export class UserRepositoryHandler {
   constructor(

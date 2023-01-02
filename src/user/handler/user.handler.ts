@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import User from 'src/facade/entities/user.model';
 import { CreateUserDto } from '../dto/create-user.dto';
 import bcrypt from 'bcrypt';
 import { UserRepositoryHandler } from './user-repositoy.handler';
 import { UpdateUserDto } from '../dto/update-user.dto';
+import User from '../user.model';
 @Injectable()
 export class UserHandler {
   constructor(private userRepositoryHandler: UserRepositoryHandler) {}

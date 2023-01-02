@@ -3,7 +3,7 @@ import { UserRepositoryHandler } from '../handler/user-repositoy.handler';
 import { UserHandler } from '../handler/user.handler';
 import { UserService } from './user.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import User from 'src/facade/entities/user.model';
+import User from 'src/user/user.model';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User])],
