@@ -9,7 +9,7 @@ import { AuthModule } from './auth/auth.module';
   imports: [
     UserModule,
     AuthModule,
-    ConfigModule.forRoot({ load: [config] }),
+    ConfigModule.forRoot({ load: [config], isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST,
