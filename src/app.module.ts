@@ -1,24 +1,27 @@
 import { Module } from '@nestjs/common';
 import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { typeOrmConfig } from './facade/config';
+import { ConfigModule } from '@nestjs/config';
+import config from './config';
 import { AuthModule } from './auth/auth.module';
-import { AuthService } from './auth/auth.service';
-import { UserService } from './user/service/user.service';
-import { JwtService } from '@nestjs/jwt';
+
 @Module({
-  imports: [UserModule, AuthModule, TypeOrmModule.forRoot(typeOrmConfig())],
-  providers: [
-    {
-      provide: 'AbstractAuthService',
-      useClass: AuthService,
-    },
-    {
-      provide: 'AbstractUserService',
-      useClass: UserService,
-    },
-    JwtService,
+  imports: [
+    UserModule,
+    AuthModule,
+    ConfigModule.forRoot({ load: [config] }),
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: process.env.DB_HOST,
+      port: 5432,
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE,
+      synchronize: true,
+      logging: false,
+      autoLoadEntities: true,
+    }),
   ],
-  exports: [JwtService],
+  providers: [UserModule],
 })
 export class AppModule {}

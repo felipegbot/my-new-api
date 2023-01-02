@@ -23,6 +23,7 @@ export class UserController {
   ) {}
 
   @UseGuards(LocalAuthGuard)
+  @Post('auth')
   authenticate(@Request() req) {
     return this.authService.login(req.user);
   }

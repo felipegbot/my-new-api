@@ -4,12 +4,10 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { AbstractAuthService } from 'src/abstracts/abstract-auth.service';
 import User from 'src/facade/entities/user.model';
 import { UserService } from 'src/user/service/user.service';
-
 @Injectable()
-export class AuthService implements AbstractAuthService<User> {
+export class AuthService {
   constructor(
     private userService: UserService,
     private jwtService: JwtService,
@@ -22,9 +20,9 @@ export class AuthService implements AbstractAuthService<User> {
     if (!(await user.verifyPassword(password)))
       throw new UnauthorizedException('Credenciais inválidas');
 
-    const { password_hash, ...rest } = user;
+    delete user.password_hash;
 
-    return rest;
+    return user;
   }
 
   async login(user: User) {
