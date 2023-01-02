@@ -4,9 +4,9 @@ import {
   NestModule,
   RequestMethod,
 } from '@nestjs/common';
-import { UserController } from './controller/user.controller';
-import { ValidateIdMiddleware } from './middleware/user.middleware';
 import { AuthModule } from 'src/auth/auth.module';
+import { UserController } from './controller/user.controller';
+import { ValidateIdMiddleware } from './middleware/validate-id.middleware';
 import { UserServiceModule } from './service/user.service.module';
 @Module({
   imports: [AuthModule, UserServiceModule],

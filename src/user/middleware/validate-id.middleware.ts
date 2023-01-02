@@ -12,8 +12,11 @@ export class ValidateIdMiddleware implements NestMiddleware {
   constructor(private userService: UserService) {}
   use(req: Request, res: Response, next: NextFunction) {
     try {
-      const requestedId = req.params.id;
-      const user = this.userService.findOneById(+requestedId);
+      if (typeof req.params.id !== 'number') {
+        throw new Error();
+      }
+      const requestedId = +req.params.id;
+      const user = this.userService.findOneById(requestedId);
       if (!user) {
         return new NotFoundException('Usuário não encontrado');
       }
